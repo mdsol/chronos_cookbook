@@ -81,6 +81,9 @@ end
 
 template "#{node['chronos']['config_dir']}/chronos.yml" do
   source 'chronos.yml.erb'
+  owner 'root'
+  group 'root'
+  mode 00755
   variables(
     :zookeeper_server_list => zk_server_list,
     :zookeeper_port => zk_port,
