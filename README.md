@@ -90,7 +90,7 @@ order to form a group. Default: '/airbnb/service/chronos/candidate'.
 
 ## Usage
 
-This recipe allows you to deploy Airbnb's Chronos in a minimal est mode using an internal zookeeper running 
+This recipe allows you to deploy Airbnb's Chronos in a minimal test mode using an internal zookeeper running 
 within Chronos itself.
 WARNING: Do not use this configuration for production deployments!
 
@@ -111,6 +111,7 @@ run_list:
   recipe[chronos]
 ```
 
+
 This recipe allows you to deploy Airbnb's Chronos in production using a seperate zookeeper ensemble.
 NOTE: This is a recommended way to deploy Chronos in production.
 
@@ -125,7 +126,7 @@ name:                chronos
 override_attributes:
   chronos:
     jar_source: 'JAR_SOURCE_URL_HERE'
-    zookeeper_server_list: [ '203.0.113.2, '203.0.113.3', '203.0.113.4' ]
+    zookeeper_server_list: [ '203.0.113.2', '203.0.113.3', '203.0.113.4' ]
     zookeeper_port: 2181
     zookeeper_path: 'mesos'
   mesos:
@@ -133,6 +134,7 @@ override_attributes:
 run_list:
   recipe[chronos]
 ```
+
 
 This recipe allows you to deploy Airbnb's Chronos in production using Netflix Exhibitor's 
 discovery zookeeper service.
