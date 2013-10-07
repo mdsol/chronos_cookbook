@@ -22,7 +22,6 @@ default['chronos']['mail_server']                   = nil
 default['chronos']['mail_user']                     = nil
 default['chronos']['mail_ssl_on']                   = nil
 
-default['chronos']['zookeeper_candidate_znode']     = '/airbnb/service/chronos/candidate'
 default['chronos']['zookeeper_server_list']         = []
 default['chronos']['zookeeper_port']                = 2181
 default['chronos']['zookeeper_state_znode']         = '/airbnb/service/chronos/state'
