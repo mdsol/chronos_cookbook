@@ -90,11 +90,12 @@ order to form a group. Default: '/airbnb/service/chronos/candidate'.
 
 ## Usage
 
-This recipe allows you to deploy Airbnb's Chronos in a minimal test mode using an internal zookeeper running 
-within Chronos itself.
-WARNING: Do not use this configuration for production deployments!
+Here are some sample roles for configuring running Chronos in internal test mode and in zookeeper backed 
+production mode.
 
 Here is a sample role for creating a Chronos node with an internal zookeeper:
+WARNING: Do not use this configuration for production deployments!
+
 ```YAML
 chef_type:           role
 default_attributes:
