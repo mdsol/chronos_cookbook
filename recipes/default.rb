@@ -61,9 +61,35 @@ remote_file "#{node['chronos']['home_dir']}/chronos.jar" do
   not_if { ::File.exists?("#{node['chronos']['home_dir']}/chronos.jar") }
 end
 
+zk_server_list = []
+zk_port = nil
+zk_path = nil
+
+if node['chronos']['zookeeper_server_list'].count > 0
+  zk_server_list = node['chronos']['zookeeper_server_list']
+  zk_port = node['chronos']['zookeeper_port']
+  zk_path = node['chronos']['zookeeper_path']
+end
+
+if node['chronos']['zookeeper_exhibitor_discovery'] && !node['chronos']['zookeeper_exhibitor_url'].nil?
+  zk_nodes = discover_zookeepers(node['chronos']['zookeeper_exhibitor_url'])
+
+  zk_server_list = zk_nodes['servers']
+  zk_port = zk_nodes['port']
+  zk_path = node['chronos']['zookeeper_path']
+end
+
 template "#{node['chronos']['config_dir']}/chronos.yml" do
-  source 'scheduler.yml.erb'
+  source 'chronos.yml.erb'
+  owner 'root'
+  group 'root'
+  mode 00755
+  variables(
+    :zookeeper_server_list => zk_server_list,
+    :zookeeper_port => zk_port,
+    :zookeeper_path => zk_path
+  )
+  notifies :restart, "runit_service[chronos]", :delayed
 end
 
 runit_service 'chronos'
-
