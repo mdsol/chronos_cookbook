@@ -11,7 +11,6 @@ default['chronos']['schedule_horizon_seconds']      = 10
 default['chronos']['user']                          = 'root'
 default['chronos']['webui_port']                    = 4400
 default['chronos']['admin_port']                    = 4401
-default['chronos']['user']                          = 'root'
 
 default['chronos']['ganglia_host_port']             = nil
 default['chronos']['ganglia_group_prefix']          = nil
@@ -24,6 +23,7 @@ default['chronos']['mail_ssl_on']                   = nil
 
 default['chronos']['zookeeper_server_list']         = []
 default['chronos']['zookeeper_port']                = 2181
+default['chronos']['zookeeper_path']                = 'mesos'
 default['chronos']['zookeeper_state_znode']         = '/airbnb/service/chronos/state'
 default['chronos']['zookeeper_candidate_znode']     = '/airbnb/service/chronos/candidate'
 default['chronos']['zookeeper_timeout_ms']          = 5000
