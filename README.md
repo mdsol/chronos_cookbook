@@ -35,6 +35,8 @@ Tested on
 
 * Ubuntu 12.04
 
+This cookbook includes cross-platform testing support via `test-kitchen`, see `TESTING.md`.
+
 
 Attributes
 ==========
