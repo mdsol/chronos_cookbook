@@ -1,10 +1,9 @@
 Description
 ===========
 
-Application cookbook for installing [Chronos][] the fault tolerant 
-job scheduler that handles dependencies and iso8601 based schedules.  
-Chronos was created at [Airbnb][] as a replacement for `cron` and runs 
-on the [Apache Mesos][] framework.
+Application cookbook for installing [Chronos][] the fault tolerant job scheduler 
+that handles dependencies and iso8601 based schedules.  Chronos was created at 
+[Airbnb][] as a replacement for `cron` and runs on the [Apache Mesos][] framework.
 
 
 Requirements
