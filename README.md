@@ -112,11 +112,8 @@ run_list:
   recipe[chronos]
 ```
 
-
-This recipe allows you to deploy Airbnb's Chronos in production using a seperate zookeeper ensemble.
-NOTE: This is a recommended way to deploy Chronos in production.
-
 Here is a sample role for creating a Chronos node with a seperate zookeeper ensemble:
+NOTE: This is a recommended way to deploy Chronos in production.
 ```YAML
 chef_type:           role
 default_attributes:
@@ -136,12 +133,9 @@ run_list:
   recipe[chronos]
 ```
 
-
-This recipe allows you to deploy Airbnb's Chronos in production using Netflix Exhibitor's 
-discovery zookeeper service.
+Here is a sample role for creating a Chronos node with a seperate zookeeper ensemble
+dynamically discovered via Netflix Exhibitor:
 NOTE: This is a recommended way to deploy Chronos in production.
-
-Here is a sample role for creating a Chronos node with a seperate zookeeper ensemble:
 ```YAML
 chef_type:           role
 default_attributes:
