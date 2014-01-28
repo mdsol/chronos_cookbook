@@ -6,7 +6,7 @@ default['chronos']['user']                                      = 'root'
 default['chronos']['group']                                     = 'root'
 default['chronos']['java_heap']                                 = "#{(node['memory']['total'].to_i - (node['memory']['total'].to_i / 2)) / 1024}m"
 
-default['chronos']['options']['default_job_owner']              = 'flo@mesophe.re'
+default['chronos']['options']['default_job_owner']              = 'jobowner@notadomain.foo'
 default['chronos']['options']['disable_after_failures']         = 0
 default['chronos']['options']['failover_timeout']               = 1200
 default['chronos']['options']['failure_retry']                  = 60000
@@ -36,7 +36,7 @@ default['chronos']['options']['schedule_horizon']               = 60
 default['chronos']['options']['ssl_keystore_password']          = nil
 default['chronos']['options']['ssl_keystore_path']              = nil
 default['chronos']['options']['user']                           = 'root'
-default['chronos']['options']['zk_path']                       = 'chronos/state'
+default['chronos']['options']['zk_path']                       = 'chronos'
 default['chronos']['options']['zk_timeout']                     = 10000
 
 default['chronos']['zookeeper_server_list']                     = []
