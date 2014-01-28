@@ -76,14 +76,14 @@ endpoints master.
 * `node['chronos']['options']['http_port']` - The port to listen on for HTTP 
 requests (default = 8080).
 * `node['chronos']['options']['https_port']` - The port to listen on for HTTPS 
-requests (default = 8080).
+requests (default = 8081).
 * `node['chronos']['options']['leader_max_idle_time']` - The look-ahead time 
 for scheduling tasks in milliseconds.  Default: 5000.
 * `node['chronos']['options']['log_config']` - The path to the log config.
 * `node['chronos']['options']['mail_from']` - Mail from field.
 * `node['chronos']['options']['mail_password']` - Mail password (for auth).
 * `node['chronos']['options']['mail_server']` - Address of the mail server.
-* `node['chronos']['options']['mail_ssl']` - Mail SSL.
+* `node['chronos']['options']['mail_ssl']` - Mail SSL. Default: false
 * `node['chronos']['options']['mail_user']` - Mail user (for auth).
 * `node['chronos']['options']['master']` - The URL of the Mesos master.  
 Cookbook will default this to 'local' if no zookeeper configuration is defined 
@@ -94,7 +94,7 @@ during mesos-slave restarts and upgrades. Default: false.
 * `node['chronos']['options']['mesos_framework_name']` - The framework name. 
 Default: 'chronos-{version}'
 * `node['chronos']['options']['mesos_role']` - The Mesos role to run tasks 
-under. Default: '\*'.
+under. Default: '*'.
 * `node['chronos']['options']['ssl_keystore_password']` - The password for the
 keystore.
 * `node['chronos']['options']['ssl_keystore_path']` - Provides the keystore, if
@@ -107,6 +107,10 @@ request from Mesos for each task (MB). Default: 256.
 from Mesos for each task (MB).  Default: 128.
 * `node['chronos']['options']['schedule_horizon']` - The look-ahead time for 
 scheduling tasks in seconds.  Default: 60.
+* `node['chronos]['options']['zk_path']` - The root znode in which Chronos 
+persists its state. Default: 'chronos'.
+* `node['chronos']['options']['zk_timeout']` - Timeout for the ZookeeperState 
+abstraction in milliseconds. Default: 10000.
 
 * `node['chronos']['zookeeper_server_list']` - List of zookeeper hostnames or 
 IP addresses. Default: [].
@@ -114,14 +118,6 @@ IP addresses. Default: [].
 Default: 2181.
 * `node['chronos']['zookeeper_path']` - Mesos master zookeeper path. 
 Default: [].
-* `node['chronoso]['zookeeper_state_znode']` - The root znode in which Chronos 
-persists its state. Default: '/airbnb/service/chronos/state'.
-* `node['chronos']['zookeeper_candidate_znode']` - The root at which all 
-Chronos nodes will register in order to form a group. Default: 
-'/airbnb/service/chronos/candidate'.
-* `node['chronos']['zookeeper_timeout_ms']` - Timeout for the ZookeeperState 
-abstraction. Default: 5000.
-
 * `node['chronos']['zookeeper_exhibitor_discovery']` - Flag to enable zookeeper 
 ensemble discovery via Netflix Exhibitor. Default: false.
 * `node['chronos']['zookeeper_exhibitor_url']` - Netflix Exhibitor zookeeper 
