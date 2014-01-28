@@ -6,6 +6,6 @@ gem 'kitchen-vagrant', :group => :integration
 gem 'kitchen-ec2', :group => :integration
 gem 'foodcritic', :group => :integration
 gem 'knife-ec2', :group => :integration
-gem 'chef'
+gem 'chef', '~> 11.4.2'
 gem 'rubocop'
 gem 'stove'
