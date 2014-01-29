@@ -36,7 +36,7 @@ default['chronos']['options']['schedule_horizon']               = 60
 default['chronos']['options']['ssl_keystore_password']          = nil
 default['chronos']['options']['ssl_keystore_path']              = nil
 default['chronos']['options']['user']                           = 'root'
-default['chronos']['options']['zk_path']                       = 'chronos'
+default['chronos']['options']['zk_path']                       = '/chronos'
 default['chronos']['options']['zk_timeout']                     = 10000
 
 default['chronos']['zookeeper_server_list']                     = []
