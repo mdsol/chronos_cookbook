@@ -11,7 +11,8 @@ platforms:
     customize:
       memory: 1024
     network:
-    - ["forwarded_port", {guest: 4400, host: 4400}]
+    - ["forwarded_port", {guest: 8080, host: 8080}]
+    - ["forwarded_port", {guest: 4399, host: 4399}]
 
 suites:
 - name: default
@@ -20,6 +21,11 @@ suites:
   - recipe[chronos]
   attributes:
     chronos:
-      jar_source: 'https://s3.amazonaws.com/ice-app/chronos.jar'
+      jar_source: 'https://s3.amazonaws.com/dl.imedidata.net/chronos/chronos-2.1.0_mesos-0.14.0-rc4.jar'
+      zookeeper_server_list: [54.221.163.45]
+      zookeeper_port: 2181
+      zookeeper_path: 'mesos-test'
+      options:
+        default_job_owner: 'rarodriguez@mdsol.com'
     mesos:
-      version: '0.14.0'
+      version: '0.15.0'
