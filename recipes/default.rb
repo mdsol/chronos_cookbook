@@ -20,7 +20,7 @@
 include_recipe 'apt'
 include_recipe 'java'
 include_recipe 'runit'
-include_recipe 'mesosphere_mesos::install'
+include_recipe 'mesos::install'
 
 link '/usr/lib/libmesos.so' do
   to '/usr/local/lib/libmesos.so'
@@ -56,7 +56,7 @@ directory node['chronos']['log_dir'] do
 end
 
 remote_file "#{node['chronos']['home_dir']}/chronos.jar" do
-  source "#{node['chronos']['jar_source']}"
+  source node['chronos']['jar_source']
   mode '0755'
   not_if { ::File.exists?("#{node['chronos']['home_dir']}/chronos.jar") }
 end
@@ -68,7 +68,9 @@ node['chronos']['options'].each_pair do |name, option|
   unless option.nil?
     # Check for boolean options (ie flags with no args)
     if !!option == option
-      command = "--#{name}"
+      if option == true
+        command = "--#{name}"
+      end
     else
       command = "--#{name} #{option}"
     end
@@ -137,7 +139,7 @@ template "#{node['chronos']['config_dir']}/chronos.conf" do
   variables(
     :command_line_options => command_line_options_array.join(' ')
   )
-  notifies :restart, "runit_service[chronos]", :delayed
+  notifies :restart, 'runit_service[chronos]', :delayed
 end
 
 runit_service 'chronos'

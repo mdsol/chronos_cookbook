@@ -3,7 +3,8 @@ Description
 
 Application cookbook for installing [Chronos][] the fault tolerant job scheduler 
 that handles dependencies and iso8601 based schedules.  Chronos was created at 
-[Airbnb][] as a replacement for `cron` and runs on the [Apache Mesos][] framework.
+[Airbnb][] as a replacement for `cron` and runs on the [Apache Mesos][] 
+framework.
 
 
 Requirements
@@ -23,7 +24,7 @@ The following cookbooks are dependencies:
 * apt
 * java
 * runit (process management)
-* mesosphere_mesos (used for installing the Mesos libraries)
+* mesos (used for installing the Mesos libraries)
 * zookeeper (used for discovering zookeeper ensembles via [Netflix Exhibitor][])
 
 ## Platform:
@@ -32,65 +33,101 @@ Tested on
 
 * Ubuntu 12.04
 
-This cookbook includes cross-platform testing support via `test-kitchen`, see `TESTING.md`.
+This cookbook includes cross-platform testing support via `test-kitchen`, see 
+`TESTING.md`.
 
 
 Attributes
 ==========
 
-* `node['chronos']['home_dir']` - Home installation directory. Default: '/opt/chronos'.
-* `node['chronos']['config_dir']` - Configuration file directory. Default: '/etc/chronos/'.
+* `node['chronos']['home_dir']` - Home installation directory. Default: 
+'/opt/chronos'.
+* `node['chronos']['config_dir']` - Configuration file directory. Default: 
+'/etc/chronos/'.
 * `node['chronos']['log_dir']` - Log directory. Default: '/var/log/chronos/'.
-* `node['chronos']['log_level']` - Dropwizard log level. Default: 'WARN'.
 * `node['chronos']['jar_source']` - Jar source location url.
-* `node['chronos']['default_job_owner']` - Default email for Chronos jobs. Default: 
-'chronos@chronos.io'.
-* `node['chronos']['failover_timeout_seconds']` - Failover timeout for the Chronos framework. 
-Default: 1200.
-* `node['chronos']['failure_retry_delay']` - When a task fails, Chronos will wait up to this 
-number of milliseconds to retry. Default: 60000.
-* `node['chronos']['disable_after_failures']` - If a job has failed after this many attempts 
-since the last success, disable the job. When set to 0, failed jobs are never disabled. 
-Default: 0.
-* `node['chronos']['schedule_horizon_seconds']` - Horizon (duration) within which jobs 
-should be scheduled in advance. Default: 10.
-* `node['chronos']['user']` - The user to run tasks as on mesos slaves. Default: 'root'.
-* `node['chronos']['webui_port']` - Dropwizard application port. Default: 4400.
-* `node['chronos']['admin_port']` - Dropwziard admin port. Default: 4401.
+* `node['chronos']['user']` - The mesos user to run the processes under. 
+Default: 'root'.
+* `node['chronos']['group']` - The group to run tasks as on mesos slaves. 
+Default: 'root'.
 
-* `node['chronos']['ganglia_host_port']` - If configured, will report metrics to Ganglia 
-at the configured interval.
-* `node['chronos']['ganglia_group_prefix']` - Group prefix to use for all reported metrics.
+* `node['chronos']['options']['default_job_owner']` - Default email for Chronos 
+jobs.  Default: 'flo@mesosphe.re'.
+* `node['chronos']['options']['disable_after_failures']` - Disables a job after 
+this many failures have occurred. Default: 0.
+* `node['chronos']['options']['failover_timeout']` - The failover timeout in 
+seconds for Mesos. Default: 1200.
+* `node['chronos']['options']['failure_retry]` - Number of ms between retries. 
+Default: 60000.
+* `node['chronos']['options']['ganglia_group_prefix']` - Group prefix to use 
+for all reported metrics.
+* `node['chronos']['options']['ganglia_host_port']` - If configured, will 
+report metrics to Ganglia at the configured interval.
+* `node['chronos']['options']['ganglia_reporting_interval']` - Ganglia 
+reporting interval (seconds). Default: 60.
+* `node['chronos']['options']['hostname']` - The advertised hostname stored in 
+ZooKeeper so another standby host can redirect to this elected leader.(default 
+= ipv4 for non-EC2 instance.  Public DNS for EC2 instance).
+* `node['chronos']['options']['http_credentials']` - Credentials for accessing 
+the http service.  If empty, anyone can access the HTTP endpoint. A 
+username:password is expected where the username must not contain ':'.
+* `node['chronos']['options']['http_endpoints']` - The URLs of the event 
+endpoints master.
+* `node['chronos']['options']['http_port']` - The port to listen on for HTTP 
+requests (default = 8080).
+* `node['chronos']['options']['https_port']` - The port to listen on for HTTPS 
+requests (default = 8081).
+* `node['chronos']['options']['leader_max_idle_time']` - The look-ahead time 
+for scheduling tasks in milliseconds.  Default: 5000.
+* `node['chronos']['options']['log_config']` - The path to the log config.
+* `node['chronos']['options']['mail_from']` - Mail from field.
+* `node['chronos']['options']['mail_password']` - Mail password (for auth).
+* `node['chronos']['options']['mail_server']` - Address of the mail server.
+* `node['chronos']['options']['mail_ssl']` - Mail SSL. Default: false
+* `node['chronos']['options']['mail_user']` - Mail user (for auth).
+* `node['chronos']['options']['master']` - The URL of the Mesos master.  
+Cookbook will default this to 'local' if no zookeeper configuration is defined 
+and this attribute is not set.
+* `node['chronos']['options']['checkpoint']` - Enable checkpointing of tasks. 
+Request checkpointing enabled on slaves.  Allows tasks to continue running 
+during mesos-slave restarts and upgrades. Default: false.
+* `node['chronos']['options']['mesos_framework_name']` - The framework name. 
+Default: 'chronos-{version}'
+* `node['chronos']['options']['mesos_role']` - The Mesos role to run tasks 
+under. Default: '*'.
+* `node['chronos']['options']['ssl_keystore_password']` - The password for the
+keystore.
+* `node['chronos']['options']['ssl_keystore_path']` - Provides the keystore, if
+supplied, SSL is enabled.
+* `node['chronos']['options']['mesos_task_cpu']` - Number of CPUs to request 
+from Mesos for each task. Default: 0.1.
+* `node['chronos']['options']['mesos_task_disk']` - Amount of disk capacity to 
+request from Mesos for each task (MB). Default: 256.
+* `node['chronos']['options']['mesos_task_mem']` - Amount of memory to request 
+from Mesos for each task (MB).  Default: 128.
+* `node['chronos']['options']['schedule_horizon']` - The look-ahead time for 
+scheduling tasks in seconds.  Default: 60.
+* `node['chronos]['options']['zk_path']` - The root znode in which Chronos 
+persists its state. Default: 'chronos'.
+* `node['chronos']['options']['zk_timeout']` - Timeout for the ZookeeperState 
+abstraction in milliseconds. Default: 10000.
 
-* `node['chronos']['mail_from']` - The email address to use for the `From` field.
-* `node['chronos']['mail_password']` - The password for mailUser.
-* `node['chronos']['mail_server']` - The mail server to use to send notification emails.
-* `node['chronos']['mail_user']` - The user to send mail as.
-* `node['chronos']['mail_ssl_on']` - Whether or not to enable SSL to send notification emails.
-
-* `node['chronos']['zookeeper_server_list']` - List of zookeeper hostnames or IP addresses. Default: [].
-* `node['chronos']['zookeeper_port']` - Mesos master zookeeper port. Default: 2181.
-* `node['chronos']['zookeeper_path']` - Mesos master zookeeper path. Default: [].
-* `node['chronoso]['zookeeper_state_znode']` - The root znode in which Chronos persists its state. 
-Default: '/airbnb/service/chronos/state'.
-* `node['chronos']['zookeeper_candidate_znode']` - The root at which all Chronos nodes will register in 
-order to form a group. Default: '/airbnb/service/chronos/candidate'.
-* `node['chronos']['zookeeper_timeout_ms']` - Timeout for the ZookeeperState abstraction. Default: 5000.
-
-* `node['chronos']['zookeeper_exhibitor_discovery']` - Flag to enable zookeeper ensemble discovery via Netflix Exhibitor. Default: false.
-* `node['chronos']['zookeeper_exhibitor_url']` - Netflix Exhibitor zookeeper ensemble url.
-
-* `node['chronos']['mesos_task_cpu']` - Number of CPUs per Mesos task. Default: 1.0.
-* `node['chronos']['mesos_task_mem']` - Amount of memory, in MiB, per Mesos task. Default: 1024.
-* `node['chronos']['mesos_task_disk']` - Amount of disk space, in MiB, required per Mesos task. Default: 1024.
-* `node['chronos']['mesos_role']` - he Mesos role to use for this framework. Default: '\*'.
-* `node['chronos']['mesos_checkpoint']` - Enable checkpointing for this framework on Mesos. Default: false.
+* `node['chronos']['zookeeper_server_list']` - List of zookeeper hostnames or 
+IP addresses. Default: [].
+* `node['chronos']['zookeeper_port']` - Mesos master zookeeper port. 
+Default: 2181.
+* `node['chronos']['zookeeper_path']` - Mesos master zookeeper path. 
+Default: [].
+* `node['chronos']['zookeeper_exhibitor_discovery']` - Flag to enable zookeeper 
+ensemble discovery via Netflix Exhibitor. Default: false.
+* `node['chronos']['zookeeper_exhibitor_url']` - Netflix Exhibitor zookeeper 
+ensemble url.
 
 
 ## Usage
 
-Here are some sample roles for configuring running Chronos in internal test mode and in zookeeper backed 
-production mode.
+Here are some sample roles for configuring running Chronos in internal test 
+mode and in zookeeper backed production mode.
 
 Here is a sample role for creating a Chronos node with an internal zookeeper:
 WARNING: Do not use this configuration for production deployments!
@@ -106,12 +143,13 @@ override_attributes:
   chronos:
     jar_source: 'JAR_SOURCE_URL_HERE'
   mesos:
-    version: 0.14.0
+    version: 0.15.0
 run_list:
   recipe[chronos]
 ```
 
-Here is a sample role for creating a Chronos node with a seperate zookeeper ensemble:
+Here is a sample role for creating a Chronos node with a seperate zookeeper 
+ensemble:
 NOTE: This is a recommended way to deploy Chronos in production.
 ```YAML
 chef_type:           role
@@ -127,13 +165,13 @@ override_attributes:
     zookeeper_port: 2181
     zookeeper_path: 'mesos'
   mesos:
-    version: 0.14.0
+    version: 0.15.0
 run_list:
   recipe[chronos]
 ```
 
-Here is a sample role for creating a Chronos node with a seperate zookeeper ensemble
-dynamically discovered via Netflix Exhibitor:
+Here is a sample role for creating a Chronos node with a seperate zookeeper 
+ensemble dynamically discovered via Netflix Exhibitor:
 NOTE: This is a recommended way to deploy Chronos in production.
 ```YAML
 chef_type:           role
@@ -149,7 +187,7 @@ override_attributes:
     zookeeper_exhibitor_discovery: true
     zookeeper_exhibitor_url: 'http://zk-exhibitor-endpoint.example.com:8080'
   mesos:
-    version: 0.14.0
+    version: 0.15.0
 run_list:
   recipe[chronos]
 ```
@@ -175,8 +213,13 @@ run_list:
 
 Copyright 2013 Medidata Solutions Worldwide
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
+this file except in compliance with the License. You may obtain a copy of the 
+License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software distributed 
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
