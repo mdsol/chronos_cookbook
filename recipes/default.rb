@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
+class ::Chef::Recipe
+  include ::Chronos
+end
+
 include_recipe 'apt'
 include_recipe 'java'
 include_recipe 'runit'
@@ -68,9 +72,7 @@ node['chronos']['options'].each_pair do |name, option|
   unless option.nil?
     # Check for boolean options (ie flags with no args)
     if !!option == option
-      if option == true
-        command = "--#{name}"
-      end
+      command = "--#{name}" if option == true
     else
       command = "--#{name} #{option}"
     end
@@ -91,7 +93,11 @@ if node['chronos']['zookeeper_server_list'].count > 0
 end
 
 if node['chronos']['zookeeper_exhibitor_discovery'] && !node['chronos']['zookeeper_exhibitor_url'].nil?
-  zk_nodes = discover_zookeepers(node['chronos']['zookeeper_exhibitor_url'])
+  zk_nodes = discover_zookeepers_with_retry(node['chronos']['zookeeper_exhibitor_url'])
+
+  if zk_nodes.nil?
+    Chef::Application.fatal!('Failed to discover zookeepers.  Cannot continue')
+  end
 
   zk_server_list = zk_nodes['servers']
   zk_port = zk_nodes['port']

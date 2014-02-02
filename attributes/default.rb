@@ -9,7 +9,7 @@ default['chronos']['java_heap']                                 = "#{(node['memo
 default['chronos']['options']['default_job_owner']              = 'jobowner@notadomain.foo'
 default['chronos']['options']['disable_after_failures']         = 0
 default['chronos']['options']['failover_timeout']               = 1200
-default['chronos']['options']['failure_retry']                  = 60000
+default['chronos']['options']['failure_retry']                  = 60_000
 default['chronos']['options']['ganglia_host_port']              = nil
 default['chronos']['options']['ganglia_group_prefix']           = nil
 default['chronos']['options']['ganglia_reporting_interval']     = 60
@@ -37,7 +37,7 @@ default['chronos']['options']['ssl_keystore_password']          = nil
 default['chronos']['options']['ssl_keystore_path']              = nil
 default['chronos']['options']['user']                           = 'root'
 default['chronos']['options']['zk_path']                       = '/chronos'
-default['chronos']['options']['zk_timeout']                     = 10000
+default['chronos']['options']['zk_timeout']                     = 10_000
 
 default['chronos']['zookeeper_server_list']                     = []
 default['chronos']['zookeeper_port']                            = 2181
