@@ -1,3 +1,7 @@
+Chronos Cookbook
+==============
+[![Build Status](https://secure.travis-ci.org/mdsol/chronos_cookbook.png?branch=master)](http://travis-ci.org/mdsol/chronos_cookbook)
+
 Description
 ===========
 
