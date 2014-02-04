@@ -37,7 +37,7 @@ suites:
       oracle:
         accept_oracle_download_terms: true
       jdk:
-        7:
+        '7':
           x86_64:
             url: 'http://download.oracle.com/otn-pub/java/jdk/7u25-b15/jdk-7u25-linux-x64.tar.gz'
             checksum: 'f80dff0e19ca8d038cf7fe3aaa89538496b80950f4d10ff5f457988ae159b2a6'
