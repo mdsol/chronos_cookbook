@@ -1,18 +1,23 @@
----
-driver_plugin: vagrant
-driver_config:
-  require_chef_omnibus: true
+driver:
+  name: vagrant
+  customize:
+    cpus: 2
+    memory: 1024
+  network:
+  - - forwarded_port
+    - guest: 8080
+      host: 8080
+      auto_correct: true
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: latest
 
 platforms:
 - name: ubuntu-12.04
   driver_config:
     box: opscode-ubuntu-12.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-    customize:
-      memory: 1024
-    network:
-    - ["forwarded_port", {guest: 8080, host: 8080}]
-    - ["forwarded_port", {guest: 4399, host: 4399}]
 
 suites:
 - name: default
@@ -21,11 +26,18 @@ suites:
   - recipe[chronos]
   attributes:
     chronos:
-      jar_source: 'https://s3.amazonaws.com/dl.imedidata.net/chronos/chronos-2.1.0_mesos-0.14.0-rc4.jar'
-      zookeeper_server_list: [54.221.163.45]
-      zookeeper_port: 2181
-      zookeeper_path: 'mesos-test'
+      jar_source: 'https://s3.amazonaws.com/dl.imedidata.net/chronos/chronos-2.1.0_mesos-0.15.0.jar'
       options:
         default_job_owner: 'rarodriguez@mdsol.com'
     mesos:
       version: '0.15.0'
+    java:
+      jdk_version: '7'
+      install_flavor: 'oracle'
+      oracle:
+        accept_oracle_download_terms: true
+      jdk:
+        '7':
+          x86_64:
+            url: 'http://download.oracle.com/otn-pub/java/jdk/7u25-b15/jdk-7u25-linux-x64.tar.gz'
+            checksum: 'f80dff0e19ca8d038cf7fe3aaa89538496b80950f4d10ff5f457988ae159b2a6'
