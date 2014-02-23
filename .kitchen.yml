@@ -12,20 +12,21 @@ driver:
 provisioner:
   name: chef_zero
   require_chef_omnibus: 11.10.4
-  require_chef_omnibus: latest
+  data_path: test/shared
 
 platforms:
 - name: ubuntu-12.04
+  run_list:
+    - recipe[apt]
   driver_config:
-    run_list:
-      - recipe[apt]
     box: opscode-ubuntu-12.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
 
 suites:
 - name: default
   run_list:
-  - recipe[chronos]
+    - recipe[zookeeper-apt]
+    - recipe[chronos]
   attributes:
     chronos:
       jar_source: 'https://s3.amazonaws.com/dl.imedidata.net/chronos/chronos-2.1.0_mesos-0.15.0.jar'

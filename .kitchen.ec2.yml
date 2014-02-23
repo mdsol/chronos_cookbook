@@ -43,16 +43,17 @@ provisioner:
 
 platforms:
 - name: ubuntu-12.04
+  run_list:
+    - recipe[apt]
   driver_config:
-    run_list:
-      - recipe[apt]
     image_id: ami-e7582d8e
     username: ubuntu
 
 suites:
 - name: default
   run_list:
-  - recipe[chronos]
+    - recipe[zookeeper-apt]
+    - recipe[chronos]
   attributes:
     chronos:
       jar_source: 'https://s3.amazonaws.com/dl.imedidata.net/chronos/chronos-2.1.0_mesos-0.15.0.jar'
