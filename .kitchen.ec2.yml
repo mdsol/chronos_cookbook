@@ -19,9 +19,9 @@ end
 ---
 driver:
   name: ec2
-  aws_access_key_id: <%= ENV['AWS_BLUE_ACCESS_KEY_ID'] ||
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] ||
                         '(ENTER_AWS_ACCESS_KEY_ID)' %>
-  aws_secret_access_key: <%= ENV['AWS_BLUE_SECRET_ACCESS_KEY_ID'] ||
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY_ID'] ||
                             'ENTER_AWS_SECRET_ACCESS_KEY_ID' %>
   aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] || 'default' %>
   ssh_key: <%= File.expand_path(ENV['AWS_SSH_KEY_PATH'] ||
