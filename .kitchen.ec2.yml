@@ -4,8 +4,8 @@
 
 # To keep the YAML as simple as possible, some values are computed here with defaults set so kitchen will run without
 # values being set in ENV - at least as far as listing or running on the vagrant driver
-AWS_ACCESS_KEY_ID = ENV['AWS_BLUE_ACCESS_KEY_ID'] ||'(ENTER_AWS_ACCESS_KEY_ID)'
-AWS_ACCESS_KEY_SECRET = ENV['AWS_BLUE_SECRET_ACCESS_KEY_ID'] || '(ENTER_AWS_SECRET_ACCESS_KEY)'
+AWS_ACCESS_KEY_ID = ENV['AWS_ACCESS_KEY_ID'] ||'(ENTER_AWS_ACCESS_KEY_ID)'
+AWS_ACCESS_KEY_SECRET = ENV['AWS_SECRET_ACCESS_KEY_ID'] || '(ENTER_AWS_SECRET_ACCESS_KEY)'
 AWS_SSH_KEY_ID = ENV['AWS_SSH_KEY_ID'] || 'default'
 AWS_SSH_KEYPATH = File.expand_path(ENV['AWS_SSH_KEY_PATH'] || "#{ENV['HOME']}/.ssh/id_rsa")
 
