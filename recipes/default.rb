@@ -73,7 +73,7 @@ node['chronos']['options'].each_pair do |name, option|
   command = ''
   if option
     # Check for boolean options (ie flags with no args)
-    if true == option
+    if option.eql?(true)
       command = "--#{name}"
     else
       command = "--#{name} #{option}"
