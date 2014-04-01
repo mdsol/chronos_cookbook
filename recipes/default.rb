@@ -17,8 +17,10 @@
 # limitations under the License.
 #
 
-class ::Chef::Recipe
-  include ::Chronos
+class Chef
+  class Recipe
+    include Chronos
+  end
 end
 
 include_recipe 'apt'
@@ -69,10 +71,10 @@ command_line_options_array = []
 
 node['chronos']['options'].each_pair do |name, option|
   command = ''
-  unless option.nil?
+  if option
     # Check for boolean options (ie flags with no args)
-    if !!option == option
-      command = "--#{name}" if option == true
+    if true == option
+      command = "--#{name}"
     else
       command = "--#{name} #{option}"
     end
