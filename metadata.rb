@@ -6,11 +6,10 @@ description      'Installs/Configures Chronos'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.0.1'
 
-%w{ ubuntu }.each do |os|
-  supports os
-end
+supports 'ubuntu'
 
-# Cookbook dependencies
-%w{ zookeeper java apt runit mesos }.each do |cb|
-  depends cb
-end
+depends 'apt',       '~> 2.3'
+depends 'java',      '~> 1.22'
+depends 'mesos',     '~> 1.0'
+depends 'runit',     '~> 1.5'
+depends 'zookeeper', '~> 1.6'
