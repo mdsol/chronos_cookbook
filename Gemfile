@@ -1,20 +1,16 @@
 source 'https://rubygems.org'
 
-gem 'berkshelf'
+gem 'berkshelf',  '~> 3.0.0.beta'
+gem 'chefspec',   '~> 3.4'
 gem 'foodcritic', '~> 3.0'
-gem 'rubocop',    '~> 0.18'
+gem 'rubocop',    '~> 0.19'
+gem 'stove',      '~> 1.1'
+gem 'rake'
 gem 'rubocop-checkstyle_formatter'
-gem 'stove'
-gem 'chefspec', '~> 3.1.4'
-gem 'serverspec', '~> 0.14.2'
-
-gem 'chef', '~> 11.10.0'
-gem 'json', '~> 1.7.7'
-gem 'faraday', '0.8.5'
 
 group :integration do
-  gem 'test-kitchen'
-  gem 'kitchen-vagrant'
-  gem 'kitchen-docker'
-  gem 'kitchen-ec2'
+  gem 'kitchen-vagrant', '~> 0.14'
+  gem 'kitchen-ec2',     '~> 0.8'
+  gem 'test-kitchen',    '~> 1.2'
+  gem 'serverspec',      '~> 0.14'
 end

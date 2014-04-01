@@ -1,31 +1,28 @@
-<%  # This file contains ERB-interpreted YAML directives for testkitchen.
-    # Secrets are read from the local execution ENV into this file, and
-    # passed to the Chef tests via node attributes applied to the test suites.
+<%
+  # This file contains ERB-interpreted YAML directives for testkitchen.
+  # Secrets are read from the local execution ENV into this file, and
+  # passed to the Chef tests via node attributes applied to the test suites.
 
-# To keep the YAML as simple as possible, some values are computed here with defaults set so kitchen will run without
-# values being set in ENV - at least as far as listing or running on the vagrant driver
-AWS_ACCESS_KEY_ID = ENV['AWS_ACCESS_KEY_ID'] ||'(ENTER_AWS_ACCESS_KEY_ID)'
-AWS_ACCESS_KEY_SECRET = ENV['AWS_SECRET_ACCESS_KEY_ID'] || '(ENTER_AWS_SECRET_ACCESS_KEY)'
-AWS_SSH_KEY_ID = ENV['AWS_SSH_KEY_ID'] || 'default'
-AWS_SSH_KEYPATH = File.expand_path(ENV['AWS_SSH_KEY_PATH'] || "#{ENV['HOME']}/.ssh/id_rsa")
+  AWS_ACCESS_KEY_ID = ENV['AWS_BLUE_ACCESS_KEY_ID'] ||'(ENTER_AWS_ACCESS_KEY_ID)'
+  AWS_ACCESS_KEY_SECRET = ENV['AWS_BLUE_SECRET_ACCESS_KEY_ID'] || '(ENTER_AWS_SECRET_ACCESS_KEY)'
+  AWS_SSH_KEY_ID = ENV['AWS_SSH_KEY_ID'] || 'default'
+  AWS_SSH_KEY_PATH = File.expand_path(ENV['AWS_SSH_KEY_PATH'] || "#{ENV['HOME']}/.ssh/id_rsa")
 
-# support function, needed for inserting raw RSA private key data into YAML
-def yaml_section(hash, indentation)
-  YAML.dump(hash).sub(/\A---\s/, '').split("\n").map do |l|
-    (" " * indentation) + l
-  end.join("\n")
-end
+  # support function, needed for inserting raw RSA private key data into YAML
+  def yaml_section(hash, indentation)
+    YAML.dump(hash).sub(/\A---\s/, '').split("\n").map do |l|
+      (" " * indentation) + l
+    end.join("\n")
+  end
 %>
+
 ---
 driver:
   name: ec2
-  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] ||
-                        '(ENTER_AWS_ACCESS_KEY_ID)' %>
-  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY_ID'] ||
-                            'ENTER_AWS_SECRET_ACCESS_KEY_ID' %>
-  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] || 'default' %>
-  ssh_key: <%= File.expand_path(ENV['AWS_SSH_KEY_PATH'] ||
-                             "#{ENV['HOME']}/.ssh/id_rsa") %>
+  aws_access_key_id: <%= AWS_ACCESS_KEY_ID %>
+  aws_secret_access_key: <%= AWS_ACCESS_KEY_SECRET %>
+  aws_ssh_key_id: <%= AWS_SSH_KEY_ID %>
+  ssh_key: <%= AWS_SSH_KEY_PATH %>
   region: us-east-1
   availability_zone: us-east-1c
   flavor_id: <%= ENV['AWS_FLAVOR_ID'] || '(ENTER_AWS_FLAVOR_ID)' %>
@@ -71,3 +68,4 @@ suites:
           x86_64:
             url: 'http://download.oracle.com/otn-pub/java/jdk/7u25-b15/jdk-7u25-linux-x64.tar.gz'
             checksum: 'f80dff0e19ca8d038cf7fe3aaa89538496b80950f4d10ff5f457988ae159b2a6'
+

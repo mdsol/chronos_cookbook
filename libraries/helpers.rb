@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-module ::Chronos
+module Chronos
   # Adds retry logic to exhibitor discovery
   #
   # @return [Hash]
