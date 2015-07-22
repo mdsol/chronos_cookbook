@@ -30,8 +30,6 @@ suites:
   attributes:
     chronos:
       jar_source: 'https://s3.amazonaws.com/dl.imedidata.net/chronos/chronos-2.1.0_mesos-0.15.0.jar'
-      options:
-        default_job_owner: 'rarodriguez@mdsol.com'
     mesos:
       version: '0.15.0'
     java:

@@ -2,7 +2,7 @@
 set -o errexit -o nounset -o pipefail
 
 app_jar=<%= "#{node['chronos']['home_dir']}/chronos.jar" %>
-main=com.airbnb.scheduler.Main
+main=org.apache.mesos.chronos.scheduler.Main
 
 heap=<%= node['chronos']['java_heap'] %>
 environment_directory=<%= "#{node['chronos']['home_dir']}/environment" %>
