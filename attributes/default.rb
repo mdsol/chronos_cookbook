@@ -6,7 +6,6 @@ default['chronos']['user']                                      = 'root'
 default['chronos']['group']                                     = 'root'
 default['chronos']['java_heap']                                 = "#{(node['memory']['total'].to_i - (node['memory']['total'].to_i / 2)) / 1024}m"
 
-default['chronos']['options']['default_job_owner']              = 'jobowner@notadomain.foo'
 default['chronos']['options']['disable_after_failures']         = 0
 default['chronos']['options']['failover_timeout']               = 1200
 default['chronos']['options']['failure_retry']                  = 60_000
